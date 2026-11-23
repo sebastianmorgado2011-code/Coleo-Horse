@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coleo Horse</title>
+  <style>
+    .logo img {
+      height: 100px;
+      width: auto;
+      display: block;
+    }
+
+    /* --- VARIABLES Y RESET --- */
+    :root {
+      --primary: #0e0b0b;
+      --accent: #000000;
+      --bg-light: rgba(255, 111, 0, 0.982);
+      --text-main: #070703;
+      --text-muted: #0f0810;
+      --white: rgba(255, 111, 0, 0.982);
+      --radius: 8px;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      color: var(--text-main);
+      background-color: var(--white);
+      line-height: 1.6;
+    }
+
+    /* --- NAVBAR --- */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgb(215, 97, 0);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      box-shadow: 0 2px 10px rgb(0, 0, 0);
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .img-logo{
+     
+      width: 100%;
+      height: 450px;
+      height: auto;
+      justify-self: center;
+      display: block;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 1000;
+      font-size: 30px;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    .cart-btn {
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background 0.2s;
+    }
+
+    .cart-btn:hover {
+      background: #333;
+    }
+
+    /* --- HERO SECTION --- */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 2rem;
+      padding: 4rem 5%;
+      background: var(--bg-light);
+      min-height: 80vh;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-content h1 {
+      font-size: 3.2rem;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .hero-content p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 480px;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--white);
+      padding: 0.9rem 2rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: #333;
+      transform: translateY(-2px);
+    }
+
+    .hero-img {
+      width: 50%;
+      
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      justify-self: center;
+      object-fit: cover;
+    }
+
+    /* --- CATÁLOGO --- */
+    .catalog {
+      padding: 5rem 5%;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-header h2 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 0.5rem 1.2rem;
+      border: 1px solid #000000;
+      background: var(--white);
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+
+    .product-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .product-category {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .product-title {
+      font-size: 1.15rem;
+      margin: 0.3rem 0;
+    }
+
+    .product-price {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .add-btn {
+      margin-top: auto;
+      width: 100%;
+      padding: 0.7rem;
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .add-btn:hover {
+      background: var(--accent);
+    }
+
+    /* --- BENEFICIOS --- */
+    .features {
+      background: var(--bg-light);
+      padding: 4rem 5%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .feature-box h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    .feature-box p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* --- MODAL CARRITO --- */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: flex-end;
+      z-index: 200;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .cart-drawer {
+      background: var(--white);
+      width: 100%;
+      max-width: 380px;
+      height: 100%;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
+    }
+
+    .close-cart {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .cart-items {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 1rem 0;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #f1f1f1;
+      padding-bottom: 0.8rem;
+    }
+
+    .cart-item button {
+      background: #ec000000;
+      color: var(--accent);
+      border: none;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .cart-footer {
+      border-top: 1px solid #eee;
+      padding-top: 1rem;
+    }
+
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      background: var(--primary);
+      color: var(--white);
+      text-align: center;
+      padding: 2rem 5%;
+      font-size: 0.9rem;
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding-top: 2rem;
+      }
+
+      .hero-content p {
+        margin: 0 auto 2rem;
+      }
+
+      .hero-content h1 {
+        font-size: 2.4rem;
+      }
+
+      nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header>
+    <a href="#" class="logo">
+      <img src="IMG-20260915-WA0041-Photoroom-Photoroom.png" alt="Logo Coleo Horse">
+    </a>
+    <nav>
+      <ul>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#catalogo">Catálogo</a></li>
+        <li><a href="#beneficios">Servicios</a></li>
+      </ul>
+    </nav>
+    <button class="cart-btn" id="open-cart">
+      🛒 Carrito (<span id="cart-count">0</span>)
+    </button>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-content">
+      <h1>Calidad Y Exelente Precio</h1>
+      <p>Descubre nuestra nueva colección de aperos de trabajo paseo y coleo diseñados para acompañar a tu caballo en
+        cada lugar.</p>
+      <a href="#catalogo" class="btn-primary">Ver Tienda</a>
+    </div>
+    
+      <img src="IMG-20260915-WA0041-Photoroom.png" class="img-logo">
+    
+  </section>
+
+  <!-- CATÁLOGO -->
+  <section class="catalog" id="catalogo">
+    <div class="section-header">
+      <h2>Nuestros Productos</h2>
+      <p>Filtra por categoría y encuentra tu producto ideal</p>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" data-category="todos">Todos</button>
+      <button class="filter-btn" data-category="coleo">Coleo</button>
+      <button class="filter-btn" data-category="trabajo">Trabajo</button>
+      <button class="filter-btn" data-category="paseo">Paseo</button>
+    </div>
+
+    <div class="products-grid" id="products-grid">
+      <!-- Se llena dinámicamente con JS -->
+    </div>
+  </section>
+
+  <!-- BENEFICIOS -->
+  <section class="features" id="beneficios">
+    <div class="feature-box">
+      <h3>🚚 Envío Rápido</h3>
+      <p>Envios a nivel nacional por ZOOM y MRW entregas rapidas y Maracay y San Juan de los Morros y tambien con
+        entregas en tienda.</p>
+    </div>
+    <div class="feature-box">
+      <h3>🔄 Cambios sin costo</h3>
+      <p>Garantia por defecto de fabricacion por 15 dias</p>
+    </div>
+    <div class="feature-box">
+      <h3>💳 Metodos de Pago</h3>
+      <p>Contamos con pago movil transferencia punto de venta</p>
+    </div>
+    <div class="feature-box">
+      <h3>📩 Contactos</h3>
+      <p>Contactanos por nuestras redes:
+        Tiktok:@talabarteriacoleo.Horse
+        instagram:@coleo.Horse
+        whastapp:0422-3002735
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 Inversiones Coleo Horse. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- DRAWER CARRITO -->
+  <div class="modal-overlay" id="cart-modal">
+    <div class="cart-drawer">
+      <div class="cart-header">
+        <h3>Tu Carrito</h3>
+        <button class="close-cart" id="close-cart">&times;</button>
+      </div>
+      <div class="cart-items" id="cart-items">
+        <p style="color: #000000;">Tu carrito está vacío.</p>
+      </div>
+      <div class="cart-footer">
+        <div class="cart-total">
+          <span>Total:</span>
+          <span id="cart-total">$0.00</span>
+        </div>
+        <button class="btn-primary" style="width: 100%; border: none; cursor: pointer;" id="checkout-btn">
+          Finalizar Compra
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 1. Base de datos simulada de productos
+    const products = [
+      {
+        id: 1,
+        name: "Silla de Coleo",
+        category: "coleo",
+        price: 150.00,
+        img: "1002138502-Photoroom.png"
+      },
+      {
+        id: 2,
+        name: "Combo de Aperos",
+        category: "trabajo",
+        price: 75.00,
+        img: "1002138510-Photoroom.png"
+      },
+      {
+        id: 3,
+        name: "Combo de Aperos",
+        category: "paseo",
+        price: 80.00,
+        img: "1002138510-Photoroom.png"
+      },
+      {
+        id: 4,
+        name: "Combo de Aperos",
+        category: "coleo",
+        price: 70.00,
+        img: "1002138510-Photoroom.png"
+      },
+      {
+        id: 5,
+        name: "Silla de Coleo",
+        category: "coleo",
+        price: 90.00,
+        img: "1002138502-Photoroom.png"
+      },
+
+
+
+
+    ];
+
+    let cart = [];
+
+    // Referencias al DOM
+    const productsGrid = document.getElementById("products-grid");
+    const filterBtns = document.querySelectorAll(".filter-btn");
+    const cartModal = document.getElementById("cart-modal");
+    const openCartBtn = document.getElementById("open-cart");
+    const closeCartBtn = document.getElementById("close-cart");
+    const cartItemsContainer = document.getElementById("cart-items");
+    const cartCount = document.getElementById("cart-count");
+    const cartTotal = document.getElementById("cart-total");
+    const checkoutBtn = document.getElementById("checkout-btn");
+
+    // 2. Renderizar productos
+    function renderProducts(filter = "todos") {
+      productsGrid.innerHTML = "";
+      const filtered = filter === "todos"
+        ? products
+        : products.filter(p => p.category === filter);
+
+      filtered.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <img src="${product.img}" alt="${product.name}">
+          <div class="product-info">
+            <span class="product-category">${product.category}</span>
+            <h3 class="product-title">${product.name}</h3>
+            <p class="product-price">$${product.price.toFixed(2)}</p>
+            <button class="add-btn" onclick="addToCart(${product.id})">Agregar al carrito</button>
+          </div>
+        `;
+        productsGrid.appendChild(card);
+      });
+    }
+
+    // 3. Filtros de categoría
+    filterBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelector(".filter-btn.active").classList.remove("active");
+        btn.classList.add("active");
+        renderProducts(btn.dataset.category);
+      });
+    });
+
+    // 4. Lógica del carrito
+    window.addToCart = function (id) {
+      const item = products.find(p => p.id === id);
+      cart.push(item);
+      updateCartUI();
+    };
+
+    window.removeFromCart = function (index) {
+      cart.splice(index, 1);
+      updateCartUI();
+    };
+
+    function updateCartUI() {
+      cartCount.textContent = cart.length;
+
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<p style="color: #00000;">Tu carrito está vacío.</p>';
+        cartTotal.textContent = "$0.00";
+        return;
+      }
+
+      cartItemsContainer.innerHTML = "";
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price;
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+          <div>
+            <strong>${item.name}</strong>
+            <div style="color: #00000; font-size: 0.9rem;">$${item.price.toFixed(2)}</div>
+          </div>
+          <button onclick="removeFromCart(${index})">Eliminar</button>
+        `;
+        cartItemsContainer.appendChild(div);
+      });
+
+      cartTotal.textContent = `$${total.toFixed(2)}`;
+    }
+
+    // 5. Eventos del modal
+    openCartBtn.addEventListener("click", () => cartModal.classList.add("open"));
+    closeCartBtn.addEventListener("click", () => cartModal.classList.remove("open"));
+    cartModal.addEventListener("click", (e) => {
+      if (e.target === cartModal) cartModal.classList.remove("open");
+    });
+
+    checkoutBtn.addEventListener("click", () => {
+      if (cart.length === 0) return alert("Agrega productos antes de comprar.");
+      alert("¡Gracias por tu compra! Procesando pedido...");
+      cart = [];
+      updateCartUI();
+      cartModal.classList.remove("open");
+    });
+
+    // Inicializar
+    renderProducts();
+  </script>
+</body>
+
+</html>
